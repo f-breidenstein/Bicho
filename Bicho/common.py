@@ -61,7 +61,7 @@ class People:
 class Tracker:
     """
     Issue tracker instance.
-b
+    
     @param url: URL of the issue tracker
     @type url: C{str}
     @param name: name or type of the issue tracker

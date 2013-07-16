@@ -106,10 +106,6 @@ class DBDatabase:
 
         try:
             db_tracker = DBTracker(tracker.url, db_sup.id)
-            #PChange trackerURL and print it for debuging reasons
-            tracker.url = tracker.url.replace("http://sourceforge.net/rest/p/","").split("/")[0]
-            print ("Tracker URL: " + tracker.url)
-
             self.store.add(db_tracker)
             self.store.commit()
         except:

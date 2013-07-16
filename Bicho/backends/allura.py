@@ -347,7 +347,7 @@ class Allura():
         printout("Running Bicho with delay of %s seconds" % (str(self.delay)))
         
         # limit=-1 is NOT recognized as 'all'.  500 is a reasonable limit. - allura code
-        issues_per_query = 500
+        issues_per_query = 200
         start_page=0
 
 
@@ -367,9 +367,9 @@ class Allura():
         time_window_start = "1900-01-01T00:00:00Z" 
         time_window_end = datetime.now().isoformat()+"Z"
 
-        if last_mod_date:
-            time_window_start = last_mod_date
-            printdbg("Last bugs analyzed were modified on: %s" % last_mod_date)
+        # if last_mod_date:
+        #   time_window_start = last_mod_date
+        #    printdbg("Last bugs analyzed were modified on: %s" % last_mod_date)
 
         time_window = time_window_start + " TO  " + time_window_end
         
