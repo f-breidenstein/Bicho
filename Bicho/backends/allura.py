@@ -356,7 +356,9 @@ class Allura():
                 
         # still useless in allura
         bugsdb.insert_supported_traker("allura", "beta")
-        trk = Tracker (Config.url, "allura", "beta")
+        newUrl = Config.url.replace("http://sourceforge.net/rest/p/","").split("/")[0]
+        print ("New URL: " +newUrl)
+        trk = Tracker (newUrl, "allura", "beta")
         dbtrk = bugsdb.insert_tracker(trk)
         
         last_mod_date = bugsdb.get_last_modification_date()
