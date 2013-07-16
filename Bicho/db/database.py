@@ -106,6 +106,7 @@ class DBDatabase:
 
         try:
             db_tracker = DBTracker(tracker.url, db_sup.id)
+            print ("Tracker URL" + tracker.url)
             self.store.add(db_tracker)
             self.store.commit()
         except:
