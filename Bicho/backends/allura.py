@@ -38,6 +38,8 @@ import sys
 import time
 import traceback
 import urllib
+import urllib2
+import socket
 import feedparser
 
 from storm.locals import DateTime, Desc, Int, Reference, Unicode, Bool
@@ -239,7 +241,7 @@ class Allura():
         bug_number = bug_url.split('/')[-1]
 
         try:
-            f = urllib.urlopen(bug_url)
+            f = urllib2.urlopen(bug_url,timeout=30)
 
             # f = urllib.urlopen(bug_url) 
             json_ticket = f.read()
@@ -376,10 +378,11 @@ class Allura():
         self.url_issues = Config.url + "/search/?limit=1"
         self.url_issues += "&q="
         # A time range with all the tickets
-        self.url_issues +=  urllib.quote("mod_date_dt:["+time_window+"]")
+        self.url_issues +=  urllib2.quote("mod_date_dt:["+time_window+"]")
         printdbg("URL for getting metadata " + self.url_issues)
 
-        f = urllib.urlopen(self.url_issues)
+        socket.setdefaulttimeout(30)
+        f = urllib2.urlopen(self.url_issues,timeout=30)
         ticketTotal = json.loads(f.read())
         
         total_issues = int(ticketTotal['count'])
@@ -403,7 +406,7 @@ class Allura():
 
             printdbg("URL for next issues " + self.url_issues) 
 
-            f = urllib.urlopen(self.url_issues)
+            f = urllib2.urlopen(self.url_issues,timeout=30)
 
             ticketList = json.loads(f.read())
 
