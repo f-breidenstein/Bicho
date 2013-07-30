@@ -388,9 +388,10 @@ class Allura():
             try:
                 f = urllib2.urlopen(self.url_issues,timeout=30)
                 break
-            except urllib.HTTPError, detail:
+            except urllib2.HTTPError, detail:
                 if detail.errno == 500:
                     time.sleep(1)
+                    printdbg("Error. Retry!")
                     continue
                 else:
                     raise
@@ -423,9 +424,10 @@ class Allura():
                 try:
                     f = urllib2.urlopen(self.url_issues,timeout=30)
                     break
-                except urllib.HTTPError, detail:
+                except urllib2.HTTPError, detail:
                     if detail.errno == 500:
                         time.sleep(1)
+                        printdbg("Error. Retry!")
                         continue
                     else:
                         raise
