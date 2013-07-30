@@ -373,7 +373,7 @@ class Allura():
         #   time_window_start = last_mod_date
         #    printdbg("Last bugs analyzed were modified on: %s" % last_mod_date)
 
-        time_window = time_window_start + " TO  " + time_window_end
+        time_window = time_window_start + " TO " + time_window_end
         
         self.url_issues = Config.url + "/search/?limit=1"
         self.url_issues += "&q="
@@ -382,7 +382,19 @@ class Allura():
         printdbg("URL for getting metadata " + self.url_issues)
 
         socket.setdefaulttimeout(30)
-        f = urllib2.urlopen(self.url_issues,timeout=30)
+        
+        # retry urlopen if a HTTP 500 Error is thrown
+        while True:
+            try:
+                f = urllib2.urlopen(self.url_issues,timeout=30)
+                break
+            except urllib.HTTPError, detail:
+                if detail.errno == 500:
+                    time.sleep(1)
+                    continue
+                else:
+                    raise
+
         ticketTotal = json.loads(f.read())
         
         total_issues = int(ticketTotal['count'])
@@ -406,7 +418,17 @@ class Allura():
 
             printdbg("URL for next issues " + self.url_issues) 
 
-            f = urllib2.urlopen(self.url_issues,timeout=30)
+            # retry urlopen if a HTTP 500 Error is thrown
+            while True:
+                try:
+                    f = urllib2.urlopen(self.url_issues,timeout=30)
+                    break
+                except urllib.HTTPError, detail:
+                    if detail.errno == 500:
+                        time.sleep(1)
+                        continue
+                    else:
+                        raise
 
             ticketList = json.loads(f.read())
 
