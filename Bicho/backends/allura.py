@@ -388,13 +388,10 @@ class Allura():
             try:
                 f = urllib2.urlopen(self.url_issues,timeout=30)
                 break
-            except urllib2.HTTPError, detail:
-                if detail.errno == 500:
-                    time.sleep(1)
-                    printdbg("Error. Retry!")
-                    continue
-                else:
-                    raise
+            except urllib2.HTTPError:
+                time.sleep(1)
+                printdbg("Error. Retry!")
+                continue
 
         ticketTotal = json.loads(f.read())
         
@@ -424,13 +421,10 @@ class Allura():
                 try:
                     f = urllib2.urlopen(self.url_issues,timeout=30)
                     break
-                except urllib2.HTTPError, detail:
-                    if detail.errno == 500:
-                        time.sleep(1)
-                        printdbg("Error. Retry!")
-                        continue
-                    else:
-                        raise
+                except urllib2.HTTPError:
+                    time.sleep(1)
+                    printdbg("Error. Retry!")
+                    continue
 
             ticketList = json.loads(f.read())
 
