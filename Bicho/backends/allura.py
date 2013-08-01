@@ -427,13 +427,13 @@ class Allura():
                     f = urllib2.urlopen(self.url_issues,timeout=30)
                     break
                 except urllib2.HTTPError:
-                time.sleep(1)
-                printdbg("Error. Retry!")
-                i = i + 1
-                if (i == 10):
-                    raise KeyboardInterrupt 
-                else:
-                    continue
+                    time.sleep(1)
+                    printdbg("Error. Retry!")
+                    i = i + 1
+                    if (i == 10):
+                        raise KeyboardInterrupt 
+                    else:
+                        continue
 
             ticketList = json.loads(f.read())
 
