@@ -384,6 +384,7 @@ class Allura():
         socket.setdefaulttimeout(30)
         
         # retry urlopen if a HTTP 500 Error is thrown
+        i = 0
         while True:
             try:
                 f = urllib2.urlopen(self.url_issues,timeout=30)
@@ -391,7 +392,11 @@ class Allura():
             except urllib2.HTTPError:
                 time.sleep(1)
                 printdbg("Error. Retry!")
-                continue
+                i = i + 1
+                if (i == 10):
+                    raise KeyboardInterrupt 
+                else:
+                    continue
 
         ticketTotal = json.loads(f.read())
         
@@ -422,8 +427,12 @@ class Allura():
                     f = urllib2.urlopen(self.url_issues,timeout=30)
                     break
                 except urllib2.HTTPError:
-                    time.sleep(1)
-                    printdbg("Error. Retry!")
+                time.sleep(1)
+                printdbg("Error. Retry!")
+                i = i + 1
+                if (i == 10):
+                    raise KeyboardInterrupt 
+                else:
                     continue
 
             ticketList = json.loads(f.read())
